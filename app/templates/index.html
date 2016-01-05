@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Last FM Tags</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery.canvasjs.min.js') }}"></script>
+    <style>
+        .formwrapper {
+            padding: 2% 0;
+        }
+        .canvasjs-chart-canvas, .formwrapper {
+            border: 1px solid #dedede;
+        }
+    </style>    
+     <script type="text/javascript">
+        {% if result %}
+            window.onload = function () {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    data: [              
+                    {
+                        type: "pie",
+                        dataPoints: {{ result|tojson|safe }}
+                    }
+                    ]
+                });
+                chart.render();
+            }
+        {% endif %}
+        function loading() {
+            $('.wait').show();
+        }
+    </script>
+</head>
+<body>
+    <div class=" container-fluid">
+        <div class="page-header">
+            <h1><a href="/">Last FM Tags</a><small> by Rub</small></h1> 
+        </div>
+        <div class="formwrapper col-md-4">
+            <form action="#" role="form" method="POST" class="form-horizontal ">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-4">Lastfm username</label>
+                     <div class="col-sm-7">
+                        {{ form.username(class_="form-control") }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-4">Period</label>
+                     <div class="col-sm-7">
+                        {{ form.period(class_="form-control") }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-4">Artists <small> (max:50)</small></label>
+                     <div class="col-sm-7">
+                       {{ form.limit(class_="form-control") }}
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-4 col-sm-7">
+                        <button type="submit" class="btn btn-default" onclick="loading();">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <div class="wait col-md-12" style="display:none">
+                    <small>Please wait it may take a long time...</small>
+                    <div class="progress progress-striped active">
+                      <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                      </div>
+                    </div>
+                </div>
+        </div>
+        <div class="results col-md-8">
+        <div id="chartContainer"></div>
+            
+        </div>
+    </div>
+</body>
+</html>

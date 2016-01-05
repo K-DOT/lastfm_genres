@@ -1,3 +1,4 @@
+import json
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -12,31 +13,31 @@ def make_request(params):
     return urllib.request.urlopen(url).read().decode('utf-8')
 
 def get_track_count(user, limit='50', period='7days'):
+    print(user)
     res = []
     xml = make_request({
-        'method' : 'user.getTopTracks',
+        'method' : 'user.getTopArtists',
         'user' : user,
         'limit' : limit,
         'period' : period,
         'api_key' : API_KEY
     })
     root = ET.fromstring(xml)
-    for i in root.iterfind('./toptracks/track'): 
-        artist = list(list(i)[6])[0].text
-        track = list(i)[0].text
-        playcount = list(i)[2].text
-        res.append([artist, track, playcount])
+    for i in root.iterfind('./topartists/artist'): 
+        #artist = list(list(i)[6])[0].text
+        artist = list(i)[0].text
+        playcount = list(i)[1].text
+        res.append([artist, playcount])
     return res
 
 def get_track_genre(tracks):
     res = {}
     for item in tracks:
-        artist, track, playcount = item
+        artist, playcount = item
         try:  
             xml = make_request({
-                'method' : 'Track.getInfo',
+                'method' : 'Artist.getTopTags',
                 'artist' : artist,
-                'track' : track,
                 'api_key' : API_KEY
             }) 
         except:
@@ -44,7 +45,7 @@ def get_track_genre(tracks):
         root = ET.fromstring(xml)
         for i in root.iter('toptags'): 
             try:
-                first_tag = list(list(i)[0])[0].text
+                first_tag = list(list(i)[0])[1].text
                 print(first_tag)
             except:
                 first_tag = 'Unknown'
@@ -52,7 +53,14 @@ def get_track_genre(tracks):
                 res[first_tag] += int(playcount)
             else:
                 res[first_tag] = int(playcount)
-    return sorted(res.items(), key=lambda x: x[1], reverse=True)                
+    return to_json(res)
+
+
+def to_json(dict_):
+    res = []
+    for key, val in dict_.items(): 
+        res.append({'label' : key, 'y' : val}) 
+    return res
 
 if __name__ == '__main__':
-    print(get_track_genre(get_track_count()))
+    print(get_track_genre(get_track_count('username')))
