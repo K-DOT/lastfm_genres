@@ -3,7 +3,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
-API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+API_KEY = '617c78e30a1be9b730649b02a67d5cee'
 
 class LastFMError(Exception):
     pass
@@ -76,7 +76,7 @@ def to_json(dict_):
 
 if __name__ == '__main__':
     try:
-        count = get_track_count('username')
+        count = get_track_count('RUB1998')
     except LastFMError as e:
         print(e)
     else:
