@@ -17,7 +17,6 @@ def errors(xml):
 def make_request(params):
     url_params = urllib.parse.urlencode(params)
     url = 'http://ws.audioscrobbler.com/2.0/?%s' % url_params
-    print(url)
     try:
         return urllib.request.urlopen(url).read().decode('utf-8')
     except urllib.request.HTTPError as error:
@@ -58,7 +57,6 @@ def get_track_genre(tracks):
         for i in root.iter('toptags'): 
             try:
                 first_tag = list(list(i)[0])[1].text
-                print(first_tag)
             except:
                 first_tag = 'Unknown'
             if res.get(first_tag):
