@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Last FM Tags</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -20,7 +21,7 @@
         <div class="page-header">
             <h1><a href="/">Last FM Tags</a><small> by Rub</small></h1> 
         </div>
-        <div class="formwrapper col-md-4">
+        <div class="formwrapper col-lg-4">
             <form action="" role="form" method="POST" class="form-horizontal" id="form">
                 {{ form.hidden_tag() }}
                 <div class="form-group">
@@ -47,18 +48,18 @@
                     </div>
                 </div>
             </form>
-            <div class="wait col-md-12" style="display:none">
+            <div class="wait col-lg-12" style="display:none">
                 <small>Please wait it may take a long time depending on number of artists</small>
                 <div class="progress progress-striped active">
                     <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                     </div>
                 </div>
             </div>
-            <div class="error alert alert-danger col-md-11" style="display:none">
+            <div class="error alert alert-danger col-lg-11" style="display:none">
                 
             </div>
         </div>
-        <div class="results col-md-8">
+        <div class="results col-lg-8">
         <div id="chartContainer"></div>
             
         </div>
