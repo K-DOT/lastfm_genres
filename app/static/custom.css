@@ -1,0 +1,9 @@
+.formwrapper {
+    padding: 2% 0;
+}
+.canvasjs-chart-canvas, .formwrapper {
+    border: 1px solid #dedede;
+}
+.error {
+    margin-left: 4%;
+}
